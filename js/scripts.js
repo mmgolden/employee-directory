@@ -1,6 +1,9 @@
 const body = document.querySelector('body');
 const gallery = document.getElementById('gallery');
+const searchContainer = document.querySelector('.search-container');
 let employees;
+
+// Create the modal container
 const modalContainer = document.createElement('div');
 modalContainer.className = 'modal-container';
 
@@ -83,6 +86,10 @@ function showModal(event) {
                 <p class="modal-text">Birthday: ${convertBirthday(employee.dob.date)}</p>
             </div>
         </div>
+        <div class="modal-btn-container">
+            <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+            <button type="button" id="modal-next" class="modal-next btn">Next</button>
+        </div>
     `;
     modalContainer.innerHTML = markup;
 
@@ -95,6 +102,62 @@ function closeModal() {
     body.removeChild(modalContainer);
 }
 
+// Add a search form
+function addSearch() {
+
+    // Add the markup to the search container
+    const markup = `
+        <form action="#" method="get">
+            <input type="search" id="search-input" class="search-input" placeholder="Search...">
+            <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
+        </form>
+    `;
+    searchContainer.innerHTML = markup;
+}
+
+function search(event) {
+
+    // Prevent the page from refreshing
+    event.preventDefault();
+
+    // Get the search value
+    const searchValue = event.target.firstElementChild.value.toLowerCase();
+
+    // Filter out the cards with the matching search value
+    const employeeList = Array.from(document.querySelectorAll('.card'));
+    const filtered = employeeList.filter(card => card.lastElementChild.firstElementChild.textContent.includes(searchValue));
+
+    // Remove all of the cards from the page
+    employeeList.forEach(card => gallery.removeChild(card));
+    
+    // If a match is found, show the filtered cards
+    if (filtered.length > 0) {
+        filtered.forEach(card => gallery.appendChild(card));
+
+    // If no match is found, then show a message
+    } else {
+        const msg = document.createElement('h3');
+        msg.textContent = 'Sorry, no employees were found.';
+        gallery.appendChild(msg)
+    }
+
+    // Clear the search value from the form
+    event.target.firstElementChild.value = '';
+}
+
+// Show the previous employee
+function prevBtn(event) {
+
+    const modal = event.target.parentElement.previousElementSibling;
+    modal.style.display = 'none';
+    
+}
+
+// Show the next employee
+function nextBtn(event) {
+    console.log('next');
+}
+
 // When an employee card is clicked
 gallery.addEventListener('click', function(event) {
     if (event.target.className !== 'gallery') {
@@ -102,9 +165,27 @@ gallery.addEventListener('click', function(event) {
     }
 });
 
+// When the modal close button or overlay is clicked
 body.addEventListener('click', function(event) {
     const target = event.target;
     if (target.textContent === 'X' || target.className === 'modal-close-btn' || target.className === 'modal-container') {
         closeModal();
     }
 });
+
+// When the previous or next button is clicked
+body.addEventListener('click', function(event) {
+    if (event.target.id === 'modal-prev') {
+        prevBtn(event);
+    } else if (event.target.id === 'modal-next') {
+        nextBtn(event);
+    }
+});
+
+// When the search form is submitted
+searchContainer.addEventListener('submit', function(event) {
+    search(event);
+});
+
+// Add the search form to the page
+addSearch();
