@@ -171,6 +171,11 @@ header h1 {
 .modal-text {
     color: rgba(50, 50, 50, 0.7);
     margin: 10px;
+    text-transform: capitalize;
+}
+
+.modal-info-container p:first-of-type {
+    text-transform: none;
 }
 
 .modal hr {
