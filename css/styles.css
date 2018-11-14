@@ -31,38 +31,52 @@ header {
     margin: auto;
 }
 
+#logo {
+    margin: 0 10% 10px 10%;
+}
+
 header h1 {
     font-size: 1.25em;
     color: rgba(50, 50, 50, 0.9);
-    margin: 0;
+    margin: 0 0 15px 0;
 }
 
 .search-input {
     padding: 0.4rem 1rem;
     border: 1px solid rgba(200, 200, 200, 0.9);
-    border-radius: 0.25rem 0 0 0.25rem ;
+    border-right: none;
+    border-radius: 1rem 0 0 1rem ;
     max-width: 20rem;
     transition: .4s ease-out;
     outline: none;
 }
 
-.search-input:active, .search-input:hover, .search-input:focus {
-    border: 1px solid rgba(50, 50, 50, 0.9);
-}
-
 .search-submit {
     cursor: pointer;
     height: 33px;
-    background: rgba(245, 245, 245, 0.9);
-    border-radius: 0 0.25rem 0.25rem 0;
+    border-radius: 0 1rem 1rem 0;
     border: 1px solid rgba(200, 200, 200, 0.9);
+    border-left: none;
     transition: .4s ease-out;
     outline: none;
+    position: relative;
+    left: -5px;
+    background: #fff;
+    font-family: 'FontAwesome', sans-serif;
+    color: #444;
+    font-size: 15px;
 }
 
-.search-submit:active, .search-submit:hover, .search-submit:focus {
-    background: rgba(255, 255, 255, 0.9);
+.search-container:hover .search-input,
+.search-container:focus .search-input {
     border: 1px solid rgba(50, 50, 50, 0.9);
+    border-right: none;
+}
+
+.search-container:hover .search-submit,
+.search-container:focus .search-submit {
+    border: 1px solid rgba(50, 50, 50, 0.9);
+    border-left: none;
 }
 
 
@@ -224,18 +238,32 @@ header h1 {
    Tablet
 ======================================== */
 
-@media (min-width: 768px) {
+@media screen and (min-width:768px) {
+    #logo {
+        margin: 0 25% 10px 25%;
+    }
+}
+
+@media screen and (min-width: 991px) {
     .header-inner-container {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
+        align-items: center;
         padding-right: 25px;
         padding-left: 25px;
     }
+    #logo {
+        margin: 0;
+    }
 
-    .header-text-container {
-        text-align: left;
+    header h1 {
+        margin: 0;
+    }
+
+    .search-submit {
+        font-size: 14px;
     }
 
     .modal {
@@ -249,7 +277,7 @@ header h1 {
    Hover styles on desktop 
 ======================================== */
 
-@media (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
 
     .card:hover .card-text {
         color: rgba(25, 25, 25, 1); 

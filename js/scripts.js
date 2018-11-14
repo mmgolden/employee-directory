@@ -7,6 +7,10 @@ let employees;
 const modalContainer = document.createElement('div');
 modalContainer.className = 'modal-container';
 
+// Create loading container
+const loadingContainer = document.createElement('div');
+loadingContainer.className = 'loading-container';
+
 // Fetch data from Random User Generator
 fetch('https://randomuser.me/api/?results=12&nat=us,au,ca,gb,nz')
     .then(checkStatus)
@@ -16,10 +20,26 @@ fetch('https://randomuser.me/api/?results=12&nat=us,au,ca,gb,nz')
 // Check the status of the response
 function checkStatus(response) {
     if (response.ok) {
+        hideLoading();
         return response.json();
     } else {
         return Promise.reject(`There was an error: ${response.status} ${response.statusText}`);
     }
+}
+
+// Show loading
+function showLoading() {
+    const markup = `
+        <h3>Loading Employees...</h3>
+        <img src="images/loading.gif" alt="loading">
+    `;
+    loadingContainer.innerHTML = markup;
+    gallery.appendChild(loadingContainer);
+}
+
+// Hide loading
+function hideLoading() {
+    gallery.removeChild(loadingContainer);
 }
 
 // Display the employees on the page
@@ -106,7 +126,7 @@ function addSearch() {
     const markup = `
         <form action="#" method="get">
             <input type="search" id="search-input" class="search-input" placeholder="Search...">
-            <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
+            <input type="submit" value="&#xf002;" id="search-submit" class="search-submit">
         </form>
     `;
     searchContainer.innerHTML = markup;
@@ -133,9 +153,23 @@ function search(event) {
 
     // If no match is found, then show a message
     } else {
+
+        // Create message
         const msg = document.createElement('h3');
         msg.textContent = 'Sorry, no employees were found.';
-        gallery.appendChild(msg)
+
+        // Get the current message from the page
+        const currentMsg = document.querySelector('#gallery h3');
+
+        // If a current message exists, first remove it and then add the message
+        if (currentMsg) {
+            gallery.removeChild(currentMsg);
+            gallery.appendChild(msg);
+
+        // Otherwise add the message
+        } else {
+            gallery.appendChild(msg);
+        }
     }
 
     // Clear the search value from the form
@@ -205,6 +239,9 @@ body.addEventListener('click', function(event) {
 searchContainer.addEventListener('submit', function(event) {
     search(event);
 });
+
+// Show the loading image
+showLoading();
 
 // Add the search form to the page
 addSearch();
