@@ -62,10 +62,7 @@ function convertBirthday(date) {
 }
 
 // Show modal
-function showModal(event) {
-
-    // Get the card that was selected
-    const card = event.target.closest('.card');
+function showModal(card) {
 
     // Find the employee in the data with the email from the selected employee
     const email = card.lastElementChild.firstElementChild.nextElementSibling.textContent;
@@ -145,23 +142,47 @@ function search(event) {
     event.target.firstElementChild.value = '';
 }
 
-// Show the previous employee
-function prevBtn(event) {
+// Toggle between the previous and next employee
+function toggleEmployee(event) {
 
+    // Get all of the employees from the page
+    const employeeList = Array.from(document.querySelectorAll('.card'));
+
+    // Get the current modal
     const modal = event.target.parentElement.previousElementSibling;
-    modal.style.display = 'none';
-    
-}
+   
+    // Get the name from the modal
+    const name = modal.lastElementChild.firstElementChild.nextElementSibling.textContent;
 
-// Show the next employee
-function nextBtn(event) {
-    console.log('next');
+    // Hide the current modal
+    modal.style.display = 'none';
+
+    // Get the current employee card
+    const currentEmployee = employeeList.filter(card => card.lastElementChild.firstElementChild.textContent === name);
+    
+    // Get the adjacent employee card
+    let adjEmployee;
+    let index;
+    if (event.target.id === 'modal-prev') {
+        adjEmployee = currentEmployee[0].previousElementSibling;
+        index = employeeList.length - 1;
+    } else if (event.target.id === 'modal-next') {
+        adjEmployee = currentEmployee[0].nextElementSibling;
+        index = 0;
+    }
+
+    // Show the modal for the adjacent employee
+    if (adjEmployee) {
+        showModal(adjEmployee);
+    } else {
+        showModal(employeeList[index]);
+    }
 }
 
 // When an employee card is clicked
 gallery.addEventListener('click', function(event) {
     if (event.target.className !== 'gallery') {
-        showModal(event);
+        showModal(event.target.closest('.card'));
     }
 });
 
@@ -175,10 +196,8 @@ body.addEventListener('click', function(event) {
 
 // When the previous or next button is clicked
 body.addEventListener('click', function(event) {
-    if (event.target.id === 'modal-prev') {
-        prevBtn(event);
-    } else if (event.target.id === 'modal-next') {
-        nextBtn(event);
+    if (event.target.id === 'modal-prev' || event.target.id === 'modal-next') {
+        toggleEmployee(event);
     }
 });
 
