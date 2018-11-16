@@ -33,6 +33,7 @@ header {
 }
 
 #logo {
+    width: 80%;
     margin: 0 10% 10px 10%;
 }
 
@@ -52,6 +53,8 @@ header h1 {
     -o-transition: .4s ease-out;
     transition: .4s ease-out;
     outline: none;
+    height: 33px;
+    -webkit-appearance: none;
 }
 
 .search-submit {
@@ -70,6 +73,7 @@ header h1 {
     font-family: 'FontAwesome', sans-serif;
     color: #444;
     font-size: 15px;
+    height: 33px;
 }
 
 .search-container:hover .search-input,
@@ -203,6 +207,7 @@ header h1 {
     height: 35px;
     width: 35px;
     font-size: 18px;
+    text-align: center;
     border: 1px solid rgba(50, 50, 50, 0.3);
     -webkit-transition: background 0.5s, color 0.5s;
     -o-transition: background 0.5s, color 0.5s;
@@ -273,6 +278,7 @@ header h1 {
     font-size: 18px;
     text-align: center;
     line-height: 43px;
+    text-align: center;
     -webkit-transition: .4s ease-out;
     -o-transition: .4s ease-out;
     transition: .4s ease-out;
@@ -296,6 +302,7 @@ header h1 {
 
 @media screen and (min-width:768px) {
     #logo {
+        width: 300px;
         margin: 0 25% 10px 25%;
     }
 }
@@ -326,10 +333,6 @@ header h1 {
 
     header h1 {
         margin: 0;
-    }
-
-    .search-submit {
-        font-size: 14px;
     }
 
     .modal {
